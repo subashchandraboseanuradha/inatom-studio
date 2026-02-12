@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Menu, ChevronDown, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Menu, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 
@@ -32,13 +33,13 @@ const NavDropdown = ({ label, items }: { label: string; items: { name: string; t
 };
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/80 backdrop-blur-md">
       <div className="max-w-[1440px] mx-auto flex items-center justify-between h-14 px-4 lg:px-8">
-        {/* Logo */}
-        <a href="#" className="text-xl font-extrabold tracking-tight">inatom</a>
+        <a href="/" className="text-xl font-extrabold tracking-tight">inatom</a>
 
-        {/* Desktop Menu */}
         <div className="hidden lg:flex items-center">
           <NavDropdown
             label="Services"
@@ -58,9 +59,11 @@ const Navbar = () => {
           <button onClick={() => scrollTo("footer")} className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors px-3 py-2">
             Support
           </button>
+          <Button variant="default" size="sm" className="rounded-xl ml-4" onClick={() => navigate("/quote")}>
+            Get Quote
+          </Button>
         </div>
 
-        {/* Mobile Menu */}
         <Sheet>
           <SheetTrigger asChild className="lg:hidden">
             <Button variant="ghost" size="icon"><Menu className="h-5 w-5" /></Button>
@@ -76,7 +79,8 @@ const Navbar = () => {
               {[{ name: "Material Guide", target: "materials" }, { name: "Design Guidelines", target: "guidelines" }].map(i => (
                 <button key={i.name} onClick={() => scrollTo(i.target)} className="block w-full text-left text-sm px-3 py-2.5 rounded-lg hover:bg-muted transition-colors">{i.name}</button>
               ))}
-              <button onClick={() => scrollTo("footer")} className="block w-full text-left text-sm px-3 py-2.5 rounded-lg hover:bg-muted transition-colors mt-4">Support</button>
+              <Button className="w-full rounded-xl mt-4" onClick={() => navigate("/quote")}>Get Quote</Button>
+              <button onClick={() => scrollTo("footer")} className="block w-full text-left text-sm px-3 py-2.5 rounded-lg hover:bg-muted transition-colors mt-2">Support</button>
             </div>
           </SheetContent>
         </Sheet>
