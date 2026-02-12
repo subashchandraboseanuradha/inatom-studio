@@ -1,31 +1,92 @@
-import { Layers, Sun, ShieldCheck, Gem } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const materials = [
-  { icon: Layers, title: "PLA / PETG", tag: "Standard", desc: "Rapid prototyping and visual models. Excellent surface finish with tight dimensional accuracy." },
-  { icon: Sun, title: "ABS / ASA", tag: "Functional", desc: "UV stable, outdoor-rated. Heat resistant up to 90°C for functional enclosures and fixtures." },
-  { icon: ShieldCheck, title: "PC (Polycarbonate)", tag: "Engineering", desc: "High impact strength and flame retardant. Ideal for load-bearing and safety-critical parts." },
-  { icon: Gem, title: "PA‑CF (Nylon Carbon Fiber)", tag: "Composite", desc: "Metal replacement grade. Exceptional stiffness-to-weight ratio for industrial tooling." },
+  {
+    name: "PLA / PETG",
+    tag: "Standard",
+    bestFor: "Visual prototypes, Drafting",
+    heat: "Low (< 60°C)",
+    strength: "Medium",
+    cost: "$",
+    costVariant: "secondary" as const,
+  },
+  {
+    name: "ABS / ASA",
+    tag: "Functional",
+    bestFor: "Outdoor parts, Snap-fits",
+    heat: "High (95°C)",
+    strength: "High",
+    cost: "$$",
+    costVariant: "default" as const,
+  },
+  {
+    name: "PC (Polycarbonate)",
+    tag: "Engineering",
+    bestFor: "High-impact gears, Enclosures",
+    heat: "Very High (110°C)",
+    strength: "Very High",
+    cost: "$$$",
+    costVariant: "default" as const,
+  },
+  {
+    name: "PA‑CF (Nylon Carbon Fiber)",
+    tag: "Composite",
+    bestFor: "Metal replacement, Jigs & Fixtures",
+    heat: "Extreme (150°C)",
+    strength: "Ultra (Stiff)",
+    cost: "$$$$",
+    costVariant: "destructive" as const,
+  },
 ];
 
 const MaterialGrid = () => (
-  <section id="materials" className="py-16">
-    <h2 className="text-2xl font-bold tracking-tight mb-2">Material Capabilities</h2>
-    <p className="text-muted-foreground mb-8">Engineering-grade thermoplastics for every application.</p>
-    <div className="grid sm:grid-cols-2 gap-4">
-      {materials.map(({ icon: Icon, title, tag, desc }) => (
-        <div key={title} className="bg-card rounded-2xl p-6 shadow-xl shadow-black/[0.03] border border-border/50 hover:shadow-2xl transition-shadow">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center">
-              <Icon className="h-5 w-5 text-muted-foreground" />
-            </div>
-            <div>
-              <p className="font-bold text-sm">{title}</p>
-              <p className="text-xs text-primary font-medium">{tag}</p>
-            </div>
-          </div>
-          <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
-        </div>
-      ))}
+  <section id="materials" className="py-20 px-4 lg:px-8 max-w-[1440px] mx-auto">
+    <div className="text-center mb-12">
+      <h2 className="text-3xl font-bold tracking-tight mb-3">Material Selection Guide</h2>
+      <p className="text-muted-foreground max-w-xl mx-auto leading-relaxed">
+        Compare engineering thermoplastics to find the perfect balance of strength, heat resistance, and cost.
+      </p>
+    </div>
+
+    <div className="bg-card rounded-2xl shadow-xl shadow-black/[0.03] border border-border/50 overflow-hidden">
+      <Table>
+        <TableHeader>
+          <TableRow className="hover:bg-transparent border-border/50">
+            <TableHead className="font-bold text-foreground pl-6">Material</TableHead>
+            <TableHead className="font-bold text-foreground">Best For</TableHead>
+            <TableHead className="font-bold text-foreground">Heat Deflection</TableHead>
+            <TableHead className="font-bold text-foreground">Strength</TableHead>
+            <TableHead className="font-bold text-foreground text-right pr-6">Cost</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {materials.map(({ name, tag, bestFor, heat, strength, cost, costVariant }, i) => (
+            <TableRow
+              key={name}
+              className={`hover:bg-muted/50 border-border/30 ${i % 2 === 1 ? "bg-muted/30" : ""}`}
+            >
+              <TableCell className="pl-6 py-5">
+                <p className="font-bold text-sm">{name}</p>
+                <p className="text-xs text-primary font-medium">{tag}</p>
+              </TableCell>
+              <TableCell className="text-sm text-muted-foreground">{bestFor}</TableCell>
+              <TableCell className="text-sm text-muted-foreground">{heat}</TableCell>
+              <TableCell className="text-sm text-muted-foreground">{strength}</TableCell>
+              <TableCell className="text-right pr-6">
+                <Badge variant={costVariant} className="text-xs">{cost}</Badge>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   </section>
 );
