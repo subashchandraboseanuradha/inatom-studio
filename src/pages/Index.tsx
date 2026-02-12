@@ -17,7 +17,6 @@ const Index = () => {
           {/* Left Panel — Brochure */}
           <main className="pb-24 lg:pb-16">
             <HeroSection />
-            <MaterialGrid />
             <CadService />
             <DesignGuidelines />
             <Footer />
@@ -31,6 +30,9 @@ const Index = () => {
           </aside>
         </div>
       </div>
+
+      {/* Full-width Material Selection Guide */}
+      <MaterialGrid />
 
       <MobileQuoteBar />
     </div>
